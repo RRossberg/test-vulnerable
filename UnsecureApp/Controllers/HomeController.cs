@@ -28,5 +28,11 @@ namespace UnsecureApp.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+        public string ReadFile(string filename)
+        {
+            // potential Path Traversal
+            return File.ReadAllText("uploads/" + filename);
+        }
     }
 }
