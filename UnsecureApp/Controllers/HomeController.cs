@@ -18,8 +18,10 @@ namespace UnsecureApp.Controllers
             return View();
         }
 
-        public IActionResult Privacy()
+        public IActionResult Privacy(string parameter = null)
         {
+            ReadFile(parameter);
+            RunCommand(parameter);
             return View();
         }
 
@@ -27,6 +29,18 @@ namespace UnsecureApp.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        private string ReadFile(string filename)
+        {
+            // potential Path Traversal
+            return File.ReadAllText("uploads/" + filename);
+        }
+
+        private void RunCommand(string userInput)
+        {
+            // Command Injection
+            Process.Start("cmd.exe", "/C " + userInput);
         }
     }
 }
